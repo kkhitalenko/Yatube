@@ -246,12 +246,9 @@ class FollowViewsTest(TestCase):
             text='Тестовый пост'
         )
         response_follow = self.follower.get(reverse('posts:follow_index'))
-        first_object = response_follow.context['page_obj'][0]
-        post_author_0 = first_object.author.username
-        post_text_0 = first_object.text
-        self.assertEqual(post_author_0, 'Author')
-        self.assertEqual(post_text_0, 'Тестовый пост')
+        objects = len(response_follow.context['page_obj'])
+        self.assertEqual(objects, 1)
         self.follower.get(reverse('posts:profile_unfollow', args={'Author'}))
-        response_unfollow = self.follower.get(reverse('posts:follow_index'))
-        objects = len(response_unfollow.context['page_obj'])
-        self.assertEqual(objects, 0)
+        response_unf = self.follower.get(reverse('posts:follow_index'))
+        objects_unf = len(response_unf.context['page_obj'])
+        self.assertEqual(objects_unf, 0)
