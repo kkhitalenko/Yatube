@@ -57,7 +57,7 @@ class Comment(models.Model):
         related_name='comments',
         verbose_name='Автор'
     )
-    text = models.CharField(max_length=200, verbose_name='Комментарий')
+    text = models.TextField(max_length=200, verbose_name='Комментарий')
     created = models.DateTimeField(auto_now_add=True,
                                    verbose_name='Опубликовано')
 
