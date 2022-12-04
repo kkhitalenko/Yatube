@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+<center style="color: SteelBlue; font-family:URW Chancery L, cursive">
+<h1 style="color: DarkGrey"> Привет, я Катя</h1>
+<p>
+  Пока что я выгляжу вот так:
+  <img src="{% static 'img/kotik.gif' %}" width="40" height="40" class="d-inline-block align-top" alt="">
+</p>
+<p>
+  А хотелось бы так:
+  <img src="{% static 'img/pesik.gif' %}" width="40" height="40" class="d-inline-block align-top" alt="">
+</p>
+<p>
+  У меня есть ссылка на GitHub
+  <a href="https://github.com/ekhitalenko" target="_blank" title ="прям тут" Visit github.com/ekhitalenko!>вот она</a>
+</p>
+<p>
+  <img src="{% static 'img/Alice.gif' %}" width="150" height="150" class="d-inline-block align-top" alt="">
+</p>
+</center>
+{% endblock %}
