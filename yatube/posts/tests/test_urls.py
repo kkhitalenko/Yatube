@@ -37,7 +37,7 @@ class PostURLTest(TestCase):
         urls = ((reverse('posts:index')),
                 (reverse('posts:profile', args={'auth'})),
                 (reverse('posts:post_detail', args={'1'})),
-                (reverse('posts:group_list', args={'test-slug'}))
+                (reverse('posts:group_list', args={'test-slug'})),
                 )
         for url in urls:
             with self.subTest(url=url):

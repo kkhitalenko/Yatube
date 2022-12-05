@@ -228,27 +228,40 @@ class FollowViewsTest(TestCase):
         self.follower = Client()
         self.follower.force_login(self.user2)
 
-    def test_follow_unfollow(self):
+    def test_follow(self):
         """Авторизованный пользователь может подписываться
-        на других пользователей и удалять их из подписок."""
+        на других пользователей."""
         followers = Follow.objects.count()
         self.follower.get(reverse('posts:profile_follow', args={'Author'}))
         self.assertEqual(Follow.objects.count(), followers + 1)
+
+    def test_unfollow(self):
+        """Авторизованный пользователь может
+        удалять других пользователей из своих подписок."""
+        followers = Follow.objects.count()
+        self.follower.get(reverse('posts:profile_follow', args={'Author'}))
         self.follower.get(reverse('posts:profile_unfollow', args={'Author'}))
         self.assertEqual(Follow.objects.count(), followers)
 
-    def test_new_post_appear_only_for_subscribers(self):
+    def test_new_post_appear_for_subscribers(self):
         """Новая запись пользователя появляется в ленте тех,
-        кто на него подписан и не появляется в ленте тех, кто не подписан."""
+        кто на него подписан."""
         self.follower.get(reverse('posts:profile_follow', args={'Author'}))
         Post.objects.create(
             author=self.user1,
             text='Тестовый пост'
         )
-        response_follow = self.follower.get(reverse('posts:follow_index'))
-        objects = len(response_follow.context['page_obj'])
+        response = self.follower.get(reverse('posts:follow_index'))
+        objects = len(response.context['page_obj'])
         self.assertEqual(objects, 1)
-        self.follower.get(reverse('posts:profile_unfollow', args={'Author'}))
-        response_unf = self.follower.get(reverse('posts:follow_index'))
-        objects_unf = len(response_unf.context['page_obj'])
-        self.assertEqual(objects_unf, 0)
+
+    def test_new_post_not_appear_for_non_subscribers(self):
+        """Новая запись пользователя не появляется в ленте тех,
+        кто на него  не подписан."""
+        Post.objects.create(
+            author=self.user1,
+            text='Тестовый пост'
+        )
+        response = self.follower.get(reverse('posts:follow_index'))
+        objects = len(response.context['page_obj'])
+        self.assertEqual(objects, 0)
