@@ -11,7 +11,7 @@
               <div class="card-header">       
                 {% if is_edit %}Редактировать пост{% else %}Новый пост{% endif %}            
               </div>
-              <div class="card-body">        
+              <div class="card-body"> 
                 <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                   <div class="form-group row my-3 p-3">
@@ -19,8 +19,7 @@
                       Текст поста                  
                      <span class="required text-danger" >*</span>                  
                     </label>
-                    <textarea name="text" cols="40" rows="10" class="form-control" required id="id_text">
-                    </textarea>                
+                    {{ form.text }}       
                     <small id="id_text-help" class="form-text text-muted">
                       Текст нового поста
                     </small>                  
